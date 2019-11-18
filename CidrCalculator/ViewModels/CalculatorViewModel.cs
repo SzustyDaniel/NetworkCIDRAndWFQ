@@ -66,7 +66,7 @@ namespace CidrCalculator.ViewModels
 
         public CalculatorViewModel()
         {
-            
+            CheckValidity = true;
         }
 
 
@@ -107,7 +107,7 @@ namespace CidrCalculator.ViewModels
 
         void ExecuteCheckOverlapCommand()
         {
-            OverlapResult = OverlapFirst.Trim() + " And " + OverlapSecond.Trim() + " = " + CidrHelper.CheckCidrIpAddressOverlap(OverlapFirst.Trim(), OverlapSecond.Trim());
+            OverlapResult = OverlapFirst.Trim() + " And " + OverlapSecond.Trim() + " = " + ((CidrHelper.CheckCidrIpAddressOverlap(OverlapFirst.Trim(), OverlapSecond.Trim()))? "Overlaping": "Not overlaping");
         }
 
         bool CanExecuteCheckOverlapCommand()
