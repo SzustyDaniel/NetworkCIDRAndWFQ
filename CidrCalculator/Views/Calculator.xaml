@@ -9,6 +9,44 @@
         prism:ViewModelLocator.AutoWireViewModel="True"
         Title="Calculator" Height="450" Width="800">
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="35*"/>
+            <ColumnDefinition Width="65*"/>
+        </Grid.ColumnDefinitions>
+
+        <TextBlock Text="CIDR Application" Grid.Row="0" Grid.ColumnSpan="2"></TextBlock>
+
         
+
+        <Grid Grid.Row="1" Grid.ColumnSpan="2">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+
+            <GroupBox Grid.RowSpan="2" Grid.Column="0" Header="Select Mode">
+                <StackPanel>
+                    <RadioButton Content="Validate CIDR" IsChecked="{Binding CheckValidity}" GroupName="singleOptions"></RadioButton>
+                    <RadioButton Content="Print Range CIDR" IsChecked="{Binding PrintRange}" GroupName="singleOptions"></RadioButton>
+                </StackPanel>
+            </GroupBox>
+
+            <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding RangeOrValidTxt}"/>
+            <Button Grid.Column="2" Grid.Row="0" Content="Check" Command="{Binding RangeOrValidatecommand}"></Button>
+            <TextBlock Text="{Binding FirstResultText}" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2"></TextBlock>
+        </Grid>
+
     </Grid>
 </Window>

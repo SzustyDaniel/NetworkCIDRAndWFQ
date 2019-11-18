@@ -114,5 +114,11 @@
   <ItemGroup>
     <Folder Include="Model\" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\HomeWorkHelper\HomeWorkHelper.csproj">
+      <Project>{df01c629-b7b6-44bc-acd6-08314dab8b42}</Project>
+      <Name>HomeWorkHelper</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
