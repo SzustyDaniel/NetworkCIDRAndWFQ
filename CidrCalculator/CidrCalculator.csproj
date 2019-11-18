@@ -111,9 +111,7 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Model\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\HomeWorkHelper\HomeWorkHelper.csproj">
       <Project>{df01c629-b7b6-44bc-acd6-08314dab8b42}</Project>

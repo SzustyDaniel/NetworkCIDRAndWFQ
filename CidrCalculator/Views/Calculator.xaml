@@ -10,22 +10,18 @@
         Title="Calculator" Height="450" Width="800">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition/>
-            <RowDefinition/>
-            <RowDefinition/>
-            <RowDefinition/>
+            <RowDefinition Height="10*"/>
+            <RowDefinition Height="35*"/>
+            <RowDefinition Height="5*"/>
+            <RowDefinition Height="35*"/>
+            <RowDefinition Height="5*"/>
         </Grid.RowDefinitions>
 
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="35*"/>
-            <ColumnDefinition Width="65*"/>
-        </Grid.ColumnDefinitions>
-
-        <TextBlock Text="CIDR Application" Grid.Row="0" Grid.ColumnSpan="2"></TextBlock>
+        <TextBlock Text="CIDR Application" Grid.Row="0"></TextBlock>
 
         
 
-        <Grid Grid.Row="1" Grid.ColumnSpan="2">
+        <Grid Grid.Row="1">
             <Grid.RowDefinitions>
                 <RowDefinition/>
                 <RowDefinition/>
@@ -43,9 +39,30 @@
                 </StackPanel>
             </GroupBox>
 
-            <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding RangeOrValidTxt}"/>
+            <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding RangeOrValidTxt, UpdateSourceTrigger=PropertyChanged}"/>
             <Button Grid.Column="2" Grid.Row="0" Content="Check" Command="{Binding RangeOrValidatecommand}"></Button>
             <TextBlock Text="{Binding FirstResultText}" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2"></TextBlock>
+        </Grid>
+
+        <Grid Grid.Row="3">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Text="Overlap Checker:" Grid.Row="0" Grid.Column="0"></TextBlock>
+
+            <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding OverlapFirst, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+            <TextBox Grid.Row="0" Grid.Column="2" Text="{Binding OverlapSecond, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+
+            <Button Grid.Column="0" Grid.Row="1" Content="Check Overlap" Command="{Binding CheckOverlapCommand}"></Button>
+            <TextBlock Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding OverlapResult}"/>
         </Grid>
 
     </Grid>

@@ -11,7 +11,7 @@ namespace HomeWorkHelper
 {
     public class CidrHelper
     {
-        private static bool CheckCidrIpAddressOverlap(string firstCidrIp, string secondCidrIp)
+        public static bool CheckCidrIpAddressOverlap(string firstCidrIp, string secondCidrIp)
         {
             if (!ValidateGivenCidrAddressNotation(firstCidrIp) || !ValidateGivenCidrAddressNotation(secondCidrIp))
                 return false;
@@ -123,7 +123,7 @@ namespace HomeWorkHelper
                 return false;
 
 
-            byte[] ipAddressBytes = IPAddress.Parse(splitAddress[0]).GetAddressBytes();
+            byte[] ipAddressBytes = IPAddress.Parse(splitAddress[0].Trim()).GetAddressBytes();
 
             if (BitConverter.IsLittleEndian)
             {
