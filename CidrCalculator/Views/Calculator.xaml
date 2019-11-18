@@ -7,8 +7,8 @@
         xmlns:local="clr-namespace:CidrCalculator.Views"
         mc:Ignorable="d"
         prism:ViewModelLocator.AutoWireViewModel="True"
-        Title="Calculator" Height="450" Width="800">
-    <Grid>
+        Title="Calculator" Height="auto" Width="auto">
+    <Grid Background="Ivory">
         <Grid.RowDefinitions>
             <RowDefinition Height="10*"/>
             <RowDefinition Height="35*"/>
@@ -17,14 +17,14 @@
             <RowDefinition Height="5*"/>
         </Grid.RowDefinitions>
 
-        <TextBlock Text="CIDR Application" Grid.Row="0"></TextBlock>
+        <TextBlock Text="CIDR Application" Grid.Row="0" Style="{StaticResource applicationHeaderStyle}"></TextBlock>
 
         
 
-        <Grid Grid.Row="1">
+        <Grid Grid.Row="1" Background="AliceBlue">
             <Grid.RowDefinitions>
-                <RowDefinition/>
-                <RowDefinition/>
+                <RowDefinition Height="60*"/>
+                <RowDefinition Height="40*"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
@@ -32,19 +32,19 @@
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
 
-            <GroupBox Grid.RowSpan="2" Grid.Column="0" Header="Select Mode">
+            <GroupBox Grid.Column="0" Header="Select Mode" Style="{StaticResource applicationGroupboxStyle}">
                 <StackPanel>
-                    <RadioButton Content="Validate CIDR" IsChecked="{Binding CheckValidity}" GroupName="singleOptions"></RadioButton>
-                    <RadioButton Content="Print Range CIDR" IsChecked="{Binding PrintRange}" GroupName="singleOptions"></RadioButton>
+                    <RadioButton Content="Validate CIDR" IsChecked="{Binding CheckValidity, UpdateSourceTrigger=PropertyChanged}" GroupName="singleOptions" Style="{StaticResource applicationRadioButtonStyle}"></RadioButton>
+                    <RadioButton Content="Print Range CIDR" IsChecked="{Binding PrintRange, UpdateSourceTrigger=PropertyChanged}" GroupName="singleOptions" Style="{StaticResource applicationRadioButtonStyle}"></RadioButton>
                 </StackPanel>
             </GroupBox>
 
-            <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding RangeOrValidTxt, UpdateSourceTrigger=PropertyChanged}"/>
-            <Button Grid.Column="2" Grid.Row="0" Content="Check" Command="{Binding RangeOrValidatecommand}"></Button>
-            <TextBlock Text="{Binding FirstResultText}" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2"></TextBlock>
+            <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding RangeOrValidTxt, UpdateSourceTrigger=PropertyChanged}" VerticalContentAlignment="Center" Margin="20 25 20 25" FontFamily="David" FontSize="20" BorderBrush="Black" Padding="20 10" BorderThickness="3"/>
+            <Button Grid.Column="2" Grid.Row="0" Content="Check" Command="{Binding RangeOrValidatecommand}" VerticalContentAlignment="Center" Margin="20 25 20 25" FontFamily="David" FontSize="20" Padding="20 10"></Button>
+            <TextBlock Text="{Binding FirstResultText}" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Margin="20" Padding="20 0" TextAlignment="Center" FontFamily="David" FontSize="18" FontWeight="Bold"/>
         </Grid>
 
-        <Grid Grid.Row="3">
+        <Grid Grid.Row="3" Background="AliceBlue">
             <Grid.RowDefinitions>
                 <RowDefinition/>
                 <RowDefinition/>
