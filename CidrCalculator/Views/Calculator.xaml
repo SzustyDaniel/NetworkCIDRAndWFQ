@@ -8,7 +8,7 @@
         mc:Ignorable="d"
         prism:ViewModelLocator.AutoWireViewModel="True"
         Title="Calculator" Height="auto" Width="auto">
-    <Grid Background="Ivory">
+    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="10*"/>
             <RowDefinition Height="35*"/>
@@ -21,7 +21,7 @@
 
         
 
-        <Grid Grid.Row="1" Background="AliceBlue">
+        <Grid Grid.Row="1" Background="AliceBlue" Margin="10 10">
             <Grid.RowDefinitions>
                 <RowDefinition Height="60*"/>
                 <RowDefinition Height="40*"/>
@@ -39,12 +39,12 @@
                 </StackPanel>
             </GroupBox>
 
-            <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding RangeOrValidTxt, UpdateSourceTrigger=PropertyChanged}" VerticalContentAlignment="Center" Margin="20 25 20 25" FontFamily="David" FontSize="20" BorderBrush="Black" Padding="20 10" BorderThickness="3"/>
-            <Button Grid.Column="2" Grid.Row="0" Content="Check" Command="{Binding RangeOrValidatecommand}" VerticalContentAlignment="Center" Margin="20 25 20 25" FontFamily="David" FontSize="20" Padding="20 10"/>
+            <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding RangeOrValidTxt, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource rangeButtonStyle}"/>
+            <Button Grid.Column="2" Grid.Row="0" Content="Check" Command="{Binding RangeOrValidatecommand}" VerticalContentAlignment="Center" Margin="20 30" FontFamily="David" FontSize="20" Padding="20 10"/>
             <TextBlock Text="{Binding FirstResultText}" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Margin="20" Padding="20 0" TextAlignment="Center" FontFamily="David" FontSize="18" FontWeight="Bold"/>
         </Grid>
 
-        <Grid Grid.Row="3" Background="AliceBlue">
+        <Grid Grid.Row="3" Background="AliceBlue" Margin="5 10">
             <Grid.RowDefinitions>
                 <RowDefinition/>
                 <RowDefinition/>
@@ -56,10 +56,10 @@
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
 
-            <TextBlock Text="Overlap Checker:" Grid.Row="0" Grid.Column="0" Margin="10 25" Padding="30 0" FontSize="16" FontFamily="David"/>
+            <TextBlock Text="Overlap Checker:" VerticalAlignment="Center" Grid.Row="0" Grid.Column="0" Margin="10 25" Padding="30 0" FontSize="16" FontFamily="David"/>
 
-            <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding OverlapFirst, UpdateSourceTrigger=PropertyChanged}" Margin="20 25 20 25" FontFamily="David" FontSize="20" BorderBrush="Black" Padding="20 10" BorderThickness="3" VerticalContentAlignment="Center"/>
-            <TextBox Grid.Row="0" Grid.Column="2" Text="{Binding OverlapSecond, UpdateSourceTrigger=PropertyChanged}" Margin="20 25 20 25" FontFamily="David" FontSize="20" BorderBrush="Black" Padding="20 10" BorderThickness="3" VerticalContentAlignment="Center"/>
+            <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding OverlapFirst, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource rangeButtonStyle}"/>
+            <TextBox Grid.Row="0" Grid.Column="2" Text="{Binding OverlapSecond, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource rangeButtonStyle}"/>
 
             <Button Grid.Column="0" Grid.Row="1" Content="Check Overlap" Command="{Binding CheckOverlapCommand}" VerticalContentAlignment="Center" Margin="20 25 20 25" FontFamily="David" FontSize="20" Padding="20 10"></Button>
             <TextBlock Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding OverlapResult}" Margin="20" Padding="30 20" TextAlignment="Center" FontFamily="David" FontSize="18" FontWeight="Bold"/>

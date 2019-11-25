@@ -107,7 +107,13 @@ namespace CidrCalculator.ViewModels
 
         void ExecuteCheckOverlapCommand()
         {
-            OverlapResult = OverlapFirst.Trim() + " And " + OverlapSecond.Trim() + " = " + ((CidrHelper.CheckCidrIpAddressOverlap(OverlapFirst.Trim(), OverlapSecond.Trim()))? "Overlaping": "Not overlaping");
+            try
+            {
+                OverlapResult = OverlapFirst.Trim() + " And " + OverlapSecond.Trim() + " = " + ((CidrHelper.CheckCidrIpAddressOverlap(OverlapFirst.Trim(), OverlapSecond.Trim())) ? "Overlaping" : "Not overlaping");
+            }catch(Exception)
+            {
+                OverlapResult = "One or more of the address is an invalid CIDR address";
+            }
         }
 
         bool CanExecuteCheckOverlapCommand()

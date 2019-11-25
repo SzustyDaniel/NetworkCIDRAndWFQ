@@ -14,7 +14,7 @@ namespace HomeWorkHelper
         public static bool CheckCidrIpAddressOverlap(string firstCidrIp, string secondCidrIp)
         {
             if (!ValidateGivenCidrAddressNotation(firstCidrIp) || !ValidateGivenCidrAddressNotation(secondCidrIp))
-                return false;
+                throw new Exception();
 
             string[] splitFirst = firstCidrIp.Split('/');
             string[] splitSecond = secondCidrIp.Split('/');
