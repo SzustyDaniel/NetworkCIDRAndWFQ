@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Prism.Mvvm;
 using Prism.Commands;
-using HomeWorkHelper;
+using CidrCalculator.Services;
 
 namespace CidrCalculator.ViewModels
 {

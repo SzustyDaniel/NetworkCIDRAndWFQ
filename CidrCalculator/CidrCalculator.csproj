@@ -71,6 +71,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Services\CidrHelper.cs" />
     <Compile Include="ViewModels\CalculatorViewModel.cs" />
     <Compile Include="Views\Calculator.xaml.cs">
       <DependentUpon>Calculator.xaml</DependentUpon>
@@ -112,11 +113,5 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup />
-  <ItemGroup>
-    <ProjectReference Include="..\HomeWorkHelper\HomeWorkHelper.csproj">
-      <Project>{df01c629-b7b6-44bc-acd6-08314dab8b42}</Project>
-      <Name>HomeWorkHelper</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
