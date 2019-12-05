@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CidrCalculator", "CidrCalcu
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TempWFQCalc", "TempWFQCalc\TempWFQCalc.csproj", "{B9302560-641A-4BBC-8B6F-B5F80AA94C34}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WFQCalculator", "WFQCalculator\WFQCalculator.csproj", "{3C47D837-2DC7-4C19-BB7C-A571DC7760C3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{B9302560-641A-4BBC-8B6F-B5F80AA94C34}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B9302560-641A-4BBC-8B6F-B5F80AA94C34}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B9302560-641A-4BBC-8B6F-B5F80AA94C34}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3C47D837-2DC7-4C19-BB7C-A571DC7760C3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3C47D837-2DC7-4C19-BB7C-A571DC7760C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3C47D837-2DC7-4C19-BB7C-A571DC7760C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3C47D837-2DC7-4C19-BB7C-A571DC7760C3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
