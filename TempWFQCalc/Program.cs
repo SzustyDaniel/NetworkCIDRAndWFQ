@@ -31,9 +31,9 @@ namespace TempWFQCalc
                 List<TimedPacket> sentPackets = new List<TimedPacket>();
                 Dictionary<Flow, Queue<TimedPacket>> arrivedPacketsQueues = new Dictionary<Flow, Queue<TimedPacket>>();
                 Dictionary<Flow, float> lastCalculatedPackets = new Dictionary<Flow, float>();
-                int wallClock = 1, sentPacketsCount = 0;
+                int wallClock = 1, sentPacketsCount = 0, waitForPacketTime = 0;
                 float arriavalTime = 1;
-
+                bool packetIsSent = false;
 
                 packets.Sort(ComparePacketsByArrivalTimes);
 
@@ -78,13 +78,19 @@ namespace TempWFQCalc
                             packetsInQueues.Add(arrivedPacketsQueues[flow].Peek());
                     }
 
-                    if (packetsInQueues.Count > 0)
+                    if (sentPackets.Count != 0 && waitForPacketTime <= wallClock)
+                        packetIsSent = false;
+
+
+                    if (packetsInQueues.Count > 0 && !packetIsSent)
                         minPacketInQueues = packetsInQueues.Aggregate((currentMinPacket, packet) => currentMinPacket.FinishedTime <= packet.FinishedTime ? currentMinPacket : packet);
 
-                    if(minPacketInQueues != null)
+                    if(minPacketInQueues != null && !packetIsSent)
                     {
                         sentPackets.Add(arrivedPacketsQueues[minPacketInQueues.Flow].Dequeue());
                         sentPacketsCount++;
+                        waitForPacketTime = wallClock + minPacketInQueues.Size;
+                        packetIsSent = true;
                     }
 
 
@@ -97,7 +103,7 @@ namespace TempWFQCalc
                     wallClock++;
                 }
 
-                sentPackets.Sort(ComparePacketsByArrivalTimes);
+                //sentPackets.Sort(ComparePacketsByArrivalTimes);
 
                 foreach (var item in sentPackets)
                 {
@@ -214,5 +220,6 @@ namespace TempWFQCalc
                 flows.Add(flowItem);
             }
         }
+
     }
 }
