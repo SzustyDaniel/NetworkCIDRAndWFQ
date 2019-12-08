@@ -15,110 +15,140 @@ namespace TempWFQCalc
             try
             {
                 string[] lines = System.IO.File.ReadAllLines(args[0]);
-                List<Flow> flows = new List<Flow>();
-                List<TimedPacket> packets = new List<TimedPacket>();
+                
+                string selection = "q";
 
-                CheckAndCreateFlows(lines, flows);
-                CheckAddAndCreatePackets(lines, flows, packets);
-
-
-                // first option
-                //CalculateWFQWithoutSkew(packets, calculatedPackets);
-
-                //second option
-
-
-                List<TimedPacket> sentPackets = new List<TimedPacket>();
-                Dictionary<Flow, Queue<TimedPacket>> arrivedPacketsQueues = new Dictionary<Flow, Queue<TimedPacket>>();
-                Dictionary<Flow, float> lastCalculatedPackets = new Dictionary<Flow, float>();
-                int wallClock = 1, sentPacketsCount = 0, waitForPacketTime = 0;
-                float arriavalTime = 1;
-                bool packetIsSent = false;
-
-                packets.Sort(ComparePacketsByArrivalTimes);
-
-
-                foreach (Flow flow in flows)
+                while(selection != "")
                 {
-                    arrivedPacketsQueues.Add(flow, new Queue<TimedPacket>());
-                    lastCalculatedPackets.Add(flow, 0);
+                    List<Flow> flows = new List<Flow>();
+                    List<TimedPacket> packets = new List<TimedPacket>();
+                    List<TimedPacket> results;
+                    Console.WriteLine("Select Mode of operation: ");
+                    Console.WriteLine("write \"a\" for weighted fair queueing without skew");
+                    Console.WriteLine("write \"b\" for weighted fair queueing with skew ");
+                    Console.WriteLine("keep blank to finish the program");
+                   selection = Console.ReadLine().Trim().ToLower();
+
+                    switch (selection)
+                    {
+                        case "a":
+                            CheckAndCreateFlows(lines, flows);
+                            CheckAddAndCreatePackets(lines, flows, packets);
+                            results = CalculateWFQWithoutSkew(packets);
+                            PrintResults(packets);
+                            break;
+                        case "b":
+                            CheckAndCreateFlows(lines, flows);
+                            CheckAddAndCreatePackets(lines, flows, packets);
+                            results = CalculatWFQwithSkew(flows, packets);
+                            PrintResults(results);
+                            break;
+                        case "":
+                            break;
+                        default:
+                            Console.WriteLine("Invalid input");
+                            break;
+                    }
                 }
-
-                while (sentPacketsCount != packets.Count)
-                {
-                    List<TimedPacket> arrivedPackets = packets.FindAll(timedPackets => timedPackets.ArrivalTime == wallClock);
-                    List<TimedPacket> packetsInQueues = new List<TimedPacket>();
-                    TimedPacket minArrivedPacket = null;
-                    TimedPacket minPacketInQueues = null;
-                    int totalQueueCount = 0;
-
-                    if (arrivedPackets.Count > 0)
-                    {
-
-                        foreach (var packet in arrivedPackets)
-                        {
-                            CalculatePacketsFinishTime(lastCalculatedPackets, packet, arriavalTime);
-                        }
-
-                        foreach (TimedPacket packet in arrivedPackets)
-                        {
-                            lastCalculatedPackets[packet.Flow] = packet.FinishedTime;
-                        }
-
-                    }
-
-                    foreach (var packet in arrivedPackets)
-                    {
-                        arrivedPacketsQueues[packet.Flow].Enqueue(packet);
-                    }
-
-                    foreach (var flow in arrivedPacketsQueues.Keys)
-                    {
-                        if (arrivedPacketsQueues[flow].Count > 0)
-                            packetsInQueues.Add(arrivedPacketsQueues[flow].Peek());
-                    }
-
-                    if (sentPackets.Count != 0 && waitForPacketTime <= wallClock)
-                        packetIsSent = false;
-
-
-                    if (packetsInQueues.Count > 0 && !packetIsSent)
-                        minPacketInQueues = packetsInQueues.Aggregate((currentMinPacket, packet) => currentMinPacket.FinishedTime <= packet.FinishedTime ? currentMinPacket : packet);
-
-                    if(minPacketInQueues != null && !packetIsSent)
-                    {
-                        sentPackets.Add(arrivedPacketsQueues[minPacketInQueues.Flow].Dequeue());
-                        sentPacketsCount++;
-                        waitForPacketTime = wallClock + minPacketInQueues.Size;
-                        packetIsSent = true;
-                    }
-
-
-                    foreach (var flow in arrivedPacketsQueues.Keys)
-                    {
-                        totalQueueCount += arrivedPacketsQueues[flow].Count;
-                    }
-
-                    arriavalTime += (1 / (float)(1 + totalQueueCount));
-                    wallClock++;
-                }
-
-                //sentPackets.Sort(ComparePacketsByArrivalTimes);
-
-                foreach (var item in sentPackets)
-                {
-                    Console.Write(item.Number + " ");
-                }
-
             }
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
             }
 
+            Console.WriteLine("Finished with program press enter to close");
             Console.ReadLine();
         }
 
+        private static void PrintResults(List<TimedPacket> packets)
+        {
+            foreach (var packet in packets)
+            {
+                Console.Write($"{packet.Number} ");
+            }
+            Console.WriteLine();
+            Console.WriteLine("--------------------------------------------------");
+            Console.WriteLine();
+        }
+
+        private static List<TimedPacket> CalculatWFQwithSkew(List<Flow> flows, List<TimedPacket> packets)
+        {
+            List<TimedPacket> sentPackets = new List<TimedPacket>();
+            Dictionary<Flow, Queue<TimedPacket>> arrivedPacketsQueues = new Dictionary<Flow, Queue<TimedPacket>>();
+            Dictionary<Flow, float> lastCalculatedPackets = new Dictionary<Flow, float>();
+            int wallClock = 1, sentPacketsCount = 0, waitForPacketTime = 0;
+            float arriavalTime = 1;
+            bool packetIsSent = false;
+
+            packets.Sort(ComparePacketsByArrivalTimes);
+
+
+            foreach (Flow flow in flows)
+            {
+                arrivedPacketsQueues.Add(flow, new Queue<TimedPacket>());
+                lastCalculatedPackets.Add(flow, 0);
+            }
+
+            while (sentPacketsCount != packets.Count)
+            {
+                List<TimedPacket> arrivedPackets = packets.FindAll(timedPackets => timedPackets.ArrivalTime == wallClock);
+                List<TimedPacket> packetsInQueues = new List<TimedPacket>();
+                TimedPacket minPacketInQueues = null;
+                int totalQueueCount = 0;
+
+                if (arrivedPackets.Count > 0)
+                {
+
+                    foreach (var packet in arrivedPackets)
+                    {
+                        CalculatePacketsFinishTime(lastCalculatedPackets, packet, arriavalTime);
+                    }
+
+                    foreach (TimedPacket packet in arrivedPackets)
+                    {
+                        lastCalculatedPackets[packet.Flow] = packet.FinishedTime;
+                    }
+
+                }
+
+                foreach (var packet in arrivedPackets)
+                {
+                    arrivedPacketsQueues[packet.Flow].Enqueue(packet);
+                }
+
+                foreach (var flow in arrivedPacketsQueues.Keys)
+                {
+                    if (arrivedPacketsQueues[flow].Count > 0)
+                        packetsInQueues.Add(arrivedPacketsQueues[flow].Peek());
+                }
+
+                if (sentPackets.Count != 0 && waitForPacketTime <= wallClock)
+                    packetIsSent = false;
+
+
+                if (packetsInQueues.Count > 0 && !packetIsSent)
+                    minPacketInQueues = packetsInQueues.Aggregate((currentMinPacket, packet) => currentMinPacket.FinishedTime <= packet.FinishedTime ? currentMinPacket : packet);
+
+                if (minPacketInQueues != null && !packetIsSent)
+                {
+                    sentPackets.Add(arrivedPacketsQueues[minPacketInQueues.Flow].Dequeue());
+                    sentPacketsCount++;
+                    waitForPacketTime = wallClock + minPacketInQueues.Size;
+                    packetIsSent = true;
+                }
+
+
+                foreach (var flow in arrivedPacketsQueues.Keys)
+                {
+                    totalQueueCount += arrivedPacketsQueues[flow].Count;
+                }
+
+                arriavalTime += (1 / (float)(1 + totalQueueCount));
+                wallClock++;
+            }
+
+            return sentPackets;
+        }
 
         private static void CalculatePacketsFinishTime(Dictionary<Flow, float> lastCalculatedPackets, TimedPacket packet, float arrivalTime = 0)
         {
@@ -127,8 +157,11 @@ namespace TempWFQCalc
             packet.FinishedTime = Math.Max(arrivalTime, previusPacketFinishTime) + ((packet.Size) / (packet.Flow.FlowWeight));
         }
 
-        private static void CalculateWFQWithoutSkew(List<TimedPacket> packets, List<TimedPacket> calculatedPackets)
+        private static List<TimedPacket> CalculateWFQWithoutSkew(List<TimedPacket> packets)
         {
+            List<TimedPacket> calculatedPackets = new List<TimedPacket>();
+
+
             foreach (var packet in packets)
             {
                 float previousCalculatedTime = 0;
@@ -144,6 +177,8 @@ namespace TempWFQCalc
             }
 
             packets.Sort(ComparePacketsByFinishedTime);
+
+            return packets;
         }
 
         private static int ComparePacketsByFinishedTime(TimedPacket first, TimedPacket second)

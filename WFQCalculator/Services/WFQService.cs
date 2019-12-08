@@ -32,6 +32,86 @@ namespace WFQCalculator.Services
 
             return packets;
         }
+
+        public static void CalculatWFQwithSkew(List<Flow> flows, List<TimedPacket> packets)
+        {
+            List<TimedPacket> sentPackets = new List<TimedPacket>();
+            Dictionary<Flow, Queue<TimedPacket>> arrivedPacketsQueues = new Dictionary<Flow, Queue<TimedPacket>>();
+            Dictionary<Flow, float> lastCalculatedPackets = new Dictionary<Flow, float>();
+            int wallClock = 1, sentPacketsCount = 0, waitForPacketTime = 0;
+            float arriavalTime = 1;
+            bool packetIsSent = false;
+
+            packets.Sort(ComparePacketsByArrivalTimes);
+
+
+            foreach (Flow flow in flows)
+            {
+                arrivedPacketsQueues.Add(flow, new Queue<TimedPacket>());
+                lastCalculatedPackets.Add(flow, 0);
+            }
+
+            while (sentPacketsCount != packets.Count)
+            {
+                List<TimedPacket> arrivedPackets = packets.FindAll(timedPackets => timedPackets.ArrivalTime == wallClock);
+                List<TimedPacket> packetsInQueues = new List<TimedPacket>();
+                TimedPacket minArrivedPacket = null;
+                TimedPacket minPacketInQueues = null;
+                int totalQueueCount = 0;
+
+                if (arrivedPackets.Count > 0)
+                {
+
+                    foreach (var packet in arrivedPackets)
+                    {
+                        CalculatePacketsFinishTime(lastCalculatedPackets, packet, arriavalTime);
+                    }
+
+                    foreach (TimedPacket packet in arrivedPackets)
+                    {
+                        lastCalculatedPackets[packet.Flow] = packet.FinishedTime;
+                    }
+
+                }
+
+                foreach (var packet in arrivedPackets)
+                {
+                    arrivedPacketsQueues[packet.Flow].Enqueue(packet);
+                }
+
+                foreach (var flow in arrivedPacketsQueues.Keys)
+                {
+                    if (arrivedPacketsQueues[flow].Count > 0)
+                        packetsInQueues.Add(arrivedPacketsQueues[flow].Peek());
+                }
+
+                if (sentPackets.Count != 0 && waitForPacketTime <= wallClock)
+                    packetIsSent = false;
+
+
+                if (packetsInQueues.Count > 0 && !packetIsSent)
+                    minPacketInQueues = packetsInQueues.Aggregate((currentMinPacket, packet) => currentMinPacket.FinishedTime <= packet.FinishedTime ? currentMinPacket : packet);
+
+                if (minPacketInQueues != null && !packetIsSent)
+                {
+                    sentPackets.Add(arrivedPacketsQueues[minPacketInQueues.Flow].Dequeue());
+                    sentPacketsCount++;
+                    waitForPacketTime = wallClock + minPacketInQueues.Size;
+                    packetIsSent = true;
+                }
+
+
+                foreach (var flow in arrivedPacketsQueues.Keys)
+                {
+                    totalQueueCount += arrivedPacketsQueues[flow].Count;
+                }
+
+                arriavalTime += (1 / (float)(1 + totalQueueCount));
+                wallClock++;
+            }
+
+            packets = sentPackets;
+        }
         #endregion
 
         #region Create information from File
@@ -119,6 +199,19 @@ namespace WFQCalculator.Services
         {
             return first.ArrivalTime.CompareTo(second.ArrivalTime);
         }
+        #endregion
+
+        #region Calculations Helpers
+
+        private static void CalculatePacketsFinishTime(Dictionary<Flow, float> lastCalculatedPackets, TimedPacket packet, float arrivalTime = 0)
+        {
+            var previusPacketFinishTime = lastCalculatedPackets[packet.Flow];
+
+            packet.FinishedTime = Math.Max(arrivalTime, previusPacketFinishTime) + ((packet.Size) / (packet.Flow.FlowWeight));
+        }
+
+
+
         #endregion
     }
 }
