@@ -71,6 +71,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Services\DialogService.cs" />
     <Compile Include="Services\WFQService.cs" />
     <Compile Include="ViewModels\WFQCalculatorViewModel.cs" />
     <Compile Include="Views\WFQCalculator.xaml.cs">

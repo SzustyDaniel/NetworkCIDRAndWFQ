@@ -33,7 +33,7 @@ namespace WFQCalculator.Services
             return packets;
         }
 
-        public static void CalculatWFQwithSkew(List<Flow> flows, List<TimedPacket> packets)
+        public static List<TimedPacket> CalculatWFQwithSkew(List<Flow> flows, List<TimedPacket> packets)
         {
             List<TimedPacket> sentPackets = new List<TimedPacket>();
             Dictionary<Flow, Queue<TimedPacket>> arrivedPacketsQueues = new Dictionary<Flow, Queue<TimedPacket>>();
@@ -55,7 +55,6 @@ namespace WFQCalculator.Services
             {
                 List<TimedPacket> arrivedPackets = packets.FindAll(timedPackets => timedPackets.ArrivalTime == wallClock);
                 List<TimedPacket> packetsInQueues = new List<TimedPacket>();
-                TimedPacket minArrivedPacket = null;
                 TimedPacket minPacketInQueues = null;
                 int totalQueueCount = 0;
 
@@ -110,7 +109,7 @@ namespace WFQCalculator.Services
                 wallClock++;
             }
 
-            packets = sentPackets;
+            return sentPackets;
         }
         #endregion
 
