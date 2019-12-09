@@ -7,7 +7,7 @@
         xmlns:local="clr-namespace:WFQCalculator.Views"
         mc:Ignorable="d"
         prism:ViewModelLocator.AutoWireViewModel="True"
-        Title="WFQCalculator" Height="450" Width="800">
+        Title="Weighted Fair Queueing Calculator" Height="450" Width="800">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition/>
@@ -17,31 +17,31 @@
         </Grid.RowDefinitions>
 
 
-        <TextBlock Margin="10 15" FontSize="25" FontWeight="Bold" Padding="0 15">Weight Fair Queueing Calculator</TextBlock>
+        <TextBlock Style="{StaticResource headerTextStyle}" Text="Weight Fair Queueing Calculator"/>
 
-        <Grid Grid.Row="1">
+        <Grid Grid.Row="1" Background="AliceBlue">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="30*"/>
                 <ColumnDefinition Width="70*"/>
             </Grid.ColumnDefinitions>
-            <Button Grid.Column="0" Content="Browse for file" Command="{Binding GetFileDialogCmd}"/>
-            <TextBox Grid.Column="1" Text="{Binding FilePath}"/>
+            <Button Grid.Column="0" Content="Browse for file" Style="{StaticResource buttonBaseStyle}" Command="{Binding GetFileDialogCmd}"/>
+            <TextBox Grid.Column="1" Style="{StaticResource fileTextStyle}" Text="{Binding FilePath}"/>
         </Grid>
 
-        <Grid Grid.Row="2">
+        <Grid Grid.Row="2" Background="AliceBlue">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="65*"/>
                 <ColumnDefinition Width="35*"/>
             </Grid.ColumnDefinitions>
             
-            <GroupBox Header="Select Mode">
+            <GroupBox Header="Select Mode" Style="{StaticResource groupBoxStyle}" Background="White">
                 <StackPanel>
-                    <RadioButton GroupName="modeGroup" Content="Without Skew" IsChecked="{Binding WithoutSkew}"/>
-                    <RadioButton GroupName="modeGroup" Content="With Skew" IsChecked="{Binding WithSkew}"/>
+                    <RadioButton Style="{StaticResource groupBoxRadioStyle}" GroupName="modeGroup" Content="Without Skew" IsChecked="{Binding WithoutSkew}"/>
+                    <RadioButton Style="{StaticResource groupBoxRadioStyle}" GroupName="modeGroup" Content="With Skew" IsChecked="{Binding WithSkew}"/>
                 </StackPanel>
             </GroupBox>
 
-            <Button Content="Calculate" Grid.Column="1" Command="{Binding CalculateWFQcmd}"/>
+            <Button Content="Calculate" Style="{StaticResource buttonBaseStyle}" Grid.Column="1" Command="{Binding CalculateWFQcmd}"/>
         </Grid>
 
 
@@ -51,8 +51,8 @@
                 <RowDefinition/>
             </Grid.RowDefinitions>
 
-            <TextBlock Text="Calculated Answers"/>
-            <TextBlock Grid.Row="1" Text="{Binding CalculatedAnswer}"/>
+            <TextBlock Style="{StaticResource generalTextStyle}" FontWeight="Bold" Text="Calculated Results"/>
+            <TextBlock Style="{StaticResource generalTextStyle}" Grid.Row="1" Text="{Binding CalculatedAnswer}"/>
         </Grid>
         
     </Grid>

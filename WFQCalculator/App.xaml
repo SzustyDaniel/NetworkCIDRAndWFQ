@@ -4,6 +4,47 @@
              xmlns:local="clr-namespace:WFQCalculator"
              StartupUri="Views\WFQCalculator.xaml">
     <Application.Resources>
-         
+        <Style x:Key="buttonBaseStyle" TargetType="Button">
+            <Setter Property="Margin" Value="20"/>
+            <Setter Property="Padding" Value="5"/>
+            <Setter Property="FontFamily" Value="Ariel"/>
+            <Setter Property="FontSize" Value="20"/>
+        </Style>
+
+        <Style x:Key="fileTextStyle" TargetType="TextBox">
+            <Setter Property="FontSize" Value="15"/>
+            <Setter Property="Margin" Value="20"/>
+            <Setter Property="Padding" Value="5"/>
+            <Setter Property="FontFamily" Value="Ariel"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+        </Style>
+
+        <Style x:Key="headerTextStyle" TargetType="TextBlock">
+            <Setter Property="FontFamily" Value="Ariel"/>
+            <Setter Property="FontSize" Value="25"/>
+            <Setter Property="Margin" Value="10 15"/>
+            <Setter Property="Padding" Value="0 15"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+        </Style>
+
+        <Style x:Key="generalTextStyle" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="18"/>
+            <Setter Property="FontFamily" Value="Ariel"/>
+            <Setter Property="Margin" Value="10 15"/>
+            <Setter Property="Padding" Value="5"/>
+        </Style>
+
+        <Style x:Key="groupBoxStyle" TargetType="GroupBox">
+            <Setter Property="FontSize" Value="18"/>
+            <Setter Property="FontFamily" Value="Ariel"/>
+            <Setter Property="Margin" Value="20"/>
+        </Style>
+
+        <Style x:Key="groupBoxRadioStyle" TargetType="RadioButton">
+            <Setter Property="FontSize" Value="15"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Margin" Value="5 0"/>
+        </Style>
+        
     </Application.Resources>
 </Application>
